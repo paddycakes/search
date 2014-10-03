@@ -3,4 +3,5 @@
 .settings
 .gradle
 /bin
+build
 doc/WilliamHillPreInterviewJavaTest.pdf
