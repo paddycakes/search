@@ -1,22 +1,22 @@
-Java Application project template
-------------------------------------
+Search Application
+-------------------
 
-You have just created a basic Java application. There is a standard project
-structure for source code and tests.
+* Summary *
 
-In this project you get:
+The project is built with Gradle:
 
-* A Gradle build file
-* A standard project structure:
+http://www.gradle.org/
 
-    <proj>
-      |
-      +- src
-          |
-          +- main
-          |     |
-          |     +- java
-          |
-          +- test
-          |   |
-          |   +- java
+* Build *
+
+This project includes the Gradle Wrapper (gradlew). 
+
+
+Running this command will download the latest version of Gradle automatically, install to your developer machine and run whatever task you specify:
+
+  * Clean the output directories:
+
+        > ./gradlew clean
+
+
+
