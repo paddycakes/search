@@ -4,7 +4,10 @@ apply plugin: "eclipse"
 
 repositories {
     mavenCentral()
+	jcenter()
 }
 
 dependencies {
+	testCompile 'junit:junit:4.11',
+				'org.mockito:mockito-core:1.10.0'
 }
