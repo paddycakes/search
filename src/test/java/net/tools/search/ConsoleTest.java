@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-public class ConsoleTests {
+public class ConsoleTest {
 
 	@Test
 	public void system_should_accept_input_options() {
