@@ -5,6 +5,8 @@ apply plugin: 'eclipse'
 mainClassName = 'net.tools.search.Console'
 applicationName = 'search'
 
+sourceCompatibility = '1.7'
+
 repositories {
 	mavenCentral()
 	jcenter()
