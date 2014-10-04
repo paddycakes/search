@@ -1,15 +1,17 @@
 package net.tools.search;
 
+import java.nio.file.Path;
+
 // TODO: Should this be an interface
 public class DirectoryVisitor {
 
-	private String directoryRoot;
+	private Path directoryRoot;
 
-	public DirectoryVisitor(String directoryRoot) {
-		this.directoryRoot = directoryRoot;
+	public DirectoryVisitor(Path directoryPath) {
+		this.directoryRoot = directoryPath;
 	}
 
-	public String getRoot() {
+	public Path getRoot() {
 		return directoryRoot;
 	}
 
