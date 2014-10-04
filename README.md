@@ -23,6 +23,10 @@ The Gradle Wrapper is a batch script on Windows or a shell script on *nix. When 
 
 	./gradlew test
 	
+Test reports can be found at:
+
+	build/reports/tests/index.html
+	
 ### Running application
 
 	./gradlew run
@@ -54,3 +58,12 @@ Execute this command
 and then you will find the distribution created at:
 
 	build/distributions/search.zip
+	
+## Third Party Libraries
+
+If you wish, you can include in the README a list of third party libraries that you would have used if allowed, and why
+
+Google Guava - Preconditions, Collection utilities
+Logback
+Spock - for BDD style testing
+Concordion ??
