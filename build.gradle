@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'eclipse'
 
-mainClassName = 'net.tools.search.Console'
+mainClassName = 'net.tools.search.DirectorySearcher'
 applicationName = 'search'
 
 sourceCompatibility = '1.7'
