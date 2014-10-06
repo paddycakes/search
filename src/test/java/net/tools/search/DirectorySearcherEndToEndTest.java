@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import net.tools.search.config.SearchOptions;
 import net.tools.search.utils.DirectoryTreeBuilder;
 
 import org.junit.After;
@@ -22,12 +23,14 @@ public class DirectorySearcherEndToEndTest {
 	private static final String FILE_NAME = "pom.xml";
 	
 	private DirectoryTreeBuilder builder;
+	private SearchOptions searchOptions;
 	private DirectorySearcher application;;
 	
 	@Before
 	public void setUp() throws IOException {
 		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
-		application = new DirectorySearcher(TEST_DIRECTORY);
+		searchOptions = new SearchOptions(TEST_DIRECTORY);
+		application = new DirectorySearcher(searchOptions);
 	}
 	
 	@After
