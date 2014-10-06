@@ -2,6 +2,7 @@ package net.tools.search.strategy.nio2;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,9 +59,18 @@ public class NIO2DirectoryVisitorTest {
 		verify(fileVisitor, times(3)).visitFile(any(Path.class), any(BasicFileAttributes.class));
 	}
 	
+	@Test
+	public void should_not_visit_any_files_in_empty_directory() throws IOException {
+		directoryVisitor.visit();
+		
+		verify(fileVisitor, never()).visitFile(any(Path.class), any(BasicFileAttributes.class));
+	}
+	
+	
 	
 	// Private helpers
 	
+	@SuppressWarnings("unchecked")
 	private void setUpFileVisitorMocking() throws IOException {
 		fileVisitor = mock(FileVisitor.class);
 		setUpVisitFileMocking();

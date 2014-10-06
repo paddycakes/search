@@ -9,8 +9,8 @@ import java.util.List;
 import net.tools.search.config.SearchOptions;
 import net.tools.search.strategy.nio2.NIO2FilenameMatcher;
 
-/*
- * Note: This class could also be called Main by convention.
+/**
+ * Main entry point for directory search application.
  */
 public class DirectorySearcher {
 	
