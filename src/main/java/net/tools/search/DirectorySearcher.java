@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.tools.search.config.SearchOptions;
 import net.tools.search.strategy.nio2.NIO2FilenameMatcher;
 
 /*
@@ -13,24 +14,25 @@ import net.tools.search.strategy.nio2.NIO2FilenameMatcher;
  */
 public class DirectorySearcher {
 	
-	private final String rootDirectory;
+	private final SearchOptions searchOptions;
 	private final FileMatcher fileMatcher;
 	private List<String> matchingFilePaths;
 
-	public DirectorySearcher(String directory) {
+	public DirectorySearcher(SearchOptions searchOptions) {
 		// TODO: Factory to get default? Where should Path be created?
 		// TODO: *** Get default FileMatcher from a Factory**
-		this(directory, new NIO2FilenameMatcher("pom.xml", directory));
+		this(searchOptions, new NIO2FilenameMatcher("pom.xml", searchOptions.getDirectory()));
 	}
 	
-	public DirectorySearcher(String directory, FileMatcher fileMatcher) {
-		this.rootDirectory = directory;
+	public DirectorySearcher(SearchOptions searchOptions, FileMatcher fileMatcher) {
+		this.searchOptions = searchOptions;
 		this.fileMatcher = fileMatcher;
 		// this.matchingFilePaths = new ArrayList<>();
 	}
 	
 	public static void main(String[] args) {
-		DirectorySearcher application = new DirectorySearcher(args[0]);
+		SearchOptions searchOptions = SearchOptions.from(args);
+		DirectorySearcher application = new DirectorySearcher(searchOptions);
 		List<String> matchingFiles = application.listMatchingFiles();
 		for (String file : matchingFiles) {
 			System.out.println(format("Matching path is '%s'", file.toString()));
@@ -38,7 +40,7 @@ public class DirectorySearcher {
 	}
 
 	public String rootDirectory() {
-		return rootDirectory;
+		return searchOptions.getDirectory();
 	}
 
 	// TODO: Convert from Files to String paths
