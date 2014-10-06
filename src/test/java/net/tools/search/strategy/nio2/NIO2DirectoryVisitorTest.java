@@ -52,9 +52,10 @@ public class NIO2DirectoryVisitorTest {
 	public void should_visit_all_files_in_root_directory() throws IOException {
 		createFile("file1.txt");
 		createFile("file2.txt");
+		createFile("pom.xml");
 		directoryVisitor.visit();
 		
-		verify(fileVisitor, times(2)).visitFile(any(Path.class), any(BasicFileAttributes.class));
+		verify(fileVisitor, times(3)).visitFile(any(Path.class), any(BasicFileAttributes.class));
 	}
 	
 	

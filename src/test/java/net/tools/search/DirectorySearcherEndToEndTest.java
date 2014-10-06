@@ -18,14 +18,16 @@ import org.junit.Test;
  */
 public class DirectorySearcherEndToEndTest {
 
-	private static final String testDirectory = "build/directorysearcher/";
+	private static final String TEST_DIRECTORY = "build/directorysearcher/";
+	private static final String FILE_NAME = "pom.xml";
+	
 	private DirectoryTreeBuilder builder;
 	private DirectorySearcher application;;
 	
 	@Before
 	public void setUp() throws IOException {
-		builder = new DirectoryTreeBuilder(testDirectory);
-		application = new DirectorySearcher(testDirectory);
+		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
+		application = new DirectorySearcher(TEST_DIRECTORY);
 	}
 	
 	@After
@@ -36,7 +38,7 @@ public class DirectorySearcherEndToEndTest {
 	// NOTE: This is not an end-to-end test. Move it elsewhere?
 	@Test public void
 	accepts_directory_parameters_as_root_search_directory() {
-		assertRootDirectoryIs(testDirectory);
+		assertRootDirectoryIs(TEST_DIRECTORY);
 	}
 	
 	// TEST: for directory not existing
@@ -98,12 +100,12 @@ public class DirectorySearcherEndToEndTest {
 	// Private helpers
 	
 	private void createFile(String fileName) throws IOException {
-		builder.createFile(testDirectory + fileName);
+		builder.createFile(TEST_DIRECTORY + fileName);
 	}
 	
 	private void createFile(String directory, String fileName) throws IOException {
-		builder.createDirectory(testDirectory + directory);
-		builder.createFile(testDirectory + "/" + directory + "/" + fileName);
+		builder.createDirectory(TEST_DIRECTORY + directory);
+		builder.createFile(TEST_DIRECTORY + "/" + directory + "/" + fileName);
 	}
 	
 	private void assertNoMatchingFiles() {
