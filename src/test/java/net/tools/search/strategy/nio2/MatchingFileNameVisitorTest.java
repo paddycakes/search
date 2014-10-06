@@ -1,4 +1,4 @@
-package net.tools.search.strategy;
+package net.tools.search.strategy.nio2;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -6,6 +6,9 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+
+import net.tools.search.strategy.nio2.MatchingFileNameVisitor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +41,7 @@ public class MatchingFileNameVisitorTest {
 		visitFilePath(visitor, "matching/path/pom.xml");
 		visitFilePath(visitor, "another/matching/path/pom.xml");
 		
-		assertThat(visitor.getMatchingFilePaths().size(), is(2));
+		assertThat(visitor.matchingFiles().size(), is(2));
 	}
 	
 	@Test
@@ -46,14 +49,16 @@ public class MatchingFileNameVisitorTest {
 		visitFilePath(visitor, "invalid/path/build.xml");
 		visitFilePath(visitor, "invalid/as/pom/in/path/not/filename.txt");
 		
-		assertThat(visitor.getMatchingFilePaths().size(), is(0));
+		assertThat(visitor.matchingFiles().size(), is(0));
 	}
 	
+	
+	// Private helpers
 	
 	// TODO: Do I need a Mock for BasicFileAttributes or is null okay?
 	private void visitFilePath(MatchingFileNameVisitor visitor, String filePath) throws IOException {
 		Path path = Paths.get(filePath);
-		// BasicFileAttributes attrs = Files.readAttributes(path, BasicFileAttributes.class);
-		visitor.visitFile(path, null);
+		BasicFileAttributes attrs = null;
+		visitor.visitFile(path, attrs);
 	}
 }

@@ -1,18 +1,42 @@
-package net.tools.search;
+package net.tools.search.strategy.nio2;
 
+import static java.lang.String.format;
+
+import java.io.IOException;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-// TODO: Should this be an interface
-public class DirectoryVisitor {
+/**
+ * TOOD: Document. 
+ * 
+ * What about immutability??
+ */
+public class NIO2DirectoryVisitor {
 
-	private Path directoryRoot;
+	private final Path directoryRoot;
+	private final FileVisitor<Path> fileVisitor;
 
-	public DirectoryVisitor(Path directoryPath) {
-		this.directoryRoot = directoryPath;
+	public NIO2DirectoryVisitor(Path directoryPath, FileVisitor<Path> fileVisitor) {
+		this.directoryRoot = validateDirectoryExists(directoryPath);
+		this.fileVisitor = fileVisitor;
+	}
+	
+	public void visit() {
+		try {
+			Files.walkFileTree(directoryRoot, fileVisitor);
+		} catch (IOException e) {
+			// TODO How do I use java.util.logging here?
+			e.printStackTrace();
+		}	
 	}
 
-	public Path getRoot() {
-		return directoryRoot;
+	private Path validateDirectoryExists(Path directoryPath) {
+		if (Files.notExists(directoryPath)) {
+			throw new IllegalArgumentException(
+					format("The specified directory '%s' does not exist", directoryPath.toString()));
+		}
+		return directoryPath;
 	}
 
 }
