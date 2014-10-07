@@ -8,23 +8,20 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.tools.search.config.SearchOptions;
+
 public class MatchingFileNameVisitor extends SimpleFileVisitor<Path> {
 	
-	private static final Object EMPTY_STRING = "";
-	
-	private final String fileToMatch;
+	private final SearchOptions searchOptions;
 	private final List<File> matchedFiles;
 
-	public MatchingFileNameVisitor(String fileToMatch) {
-		if (fileToMatch == null || fileToMatch.equals(EMPTY_STRING)) {
-			throw new IllegalArgumentException("Must provide a valid filename to match");
-		}
-		this.fileToMatch = fileToMatch;
+	public MatchingFileNameVisitor(SearchOptions searchOptions) {
+		this.searchOptions = searchOptions;
 		this.matchedFiles = new ArrayList<>();
 	}
 	
 	public String getFileToMatch() {
-		return fileToMatch;
+		return searchOptions.getFileName();
 	}
 	
 	public List<File> matchingFiles() {
@@ -33,7 +30,7 @@ public class MatchingFileNameVisitor extends SimpleFileVisitor<Path> {
 
 	@Override
 	public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
-		if (path.getFileName().toString().matches(fileToMatch)) {
+		if (path.getFileName().toString().matches(searchOptions.getFileName())) {
 			matchedFiles.add(path.toFile());
 		}
 		return FileVisitResult.CONTINUE;

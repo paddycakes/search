@@ -42,7 +42,6 @@ public class DirectorySearcherEndToEndTest {
 	@Test
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_filename_option() throws IOException {
 		createFile("pom.xml");
-		// createFile("subDirectory/pom.xml");
 		createFile("subDirectory", "pom.xml");
 		assertThat(application.listMatchingFiles().size(), is(2));
 	}
@@ -90,6 +89,8 @@ public class DirectorySearcherEndToEndTest {
 		createFile("poom.xml");
 		createFile("subDirectory", "poom.xml");
 		createFile("pam.xml");
+		createFile("poam.xml");		
+		createFile("po?m.xml");		
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchOnlyZeroOrSingleOBetweenPandM).build();
 		application = new DirectorySearcher(searchOptions);
 		

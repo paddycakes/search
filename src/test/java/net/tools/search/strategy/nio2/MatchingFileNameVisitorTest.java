@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import net.tools.search.config.SearchOptions;
 import net.tools.search.strategy.nio2.MatchingFileNameVisitor;
 
 import org.junit.Before;
@@ -15,25 +16,15 @@ import org.junit.Test;
 
 public class MatchingFileNameVisitorTest {
 	
-	public static final String fileToMatch = "pom.xml";
+	private static final String TEST_DIRECTORY = "build/directorysearcher/";
+	public static final String FILE_TO_MATCH = "pom.xml";
 	
 	private MatchingFileNameVisitor visitor;
 	
 	@Before
 	public void setUp() {
-		visitor = new MatchingFileNameVisitor(fileToMatch);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void should_throw_illegal_argument_exception_when_initialised_with_null_file_name() {
-		String nullFileName = null;
-		new MatchingFileNameVisitor(nullFileName);
-	}
-
-	@Test(expected=IllegalArgumentException.class)
-	public void should_throw_illegal_argument_exception_when_initialised_with_empty_string_file_name() {
-		String emptyStringFileName = "";
-		new MatchingFileNameVisitor(emptyStringFileName);
+		SearchOptions searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_TO_MATCH).build();
+		visitor = new MatchingFileNameVisitor(searchOptions);
 	}
 	
 	@Test

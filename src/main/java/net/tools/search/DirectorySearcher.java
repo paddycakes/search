@@ -16,7 +16,6 @@ public class DirectorySearcher {
 	
 	// TODO: Need to implement:
 	//		- text matching
-	//		- regex support
 	// TODO: Test command line interface works
 	
 	private final SearchOptions searchOptions;

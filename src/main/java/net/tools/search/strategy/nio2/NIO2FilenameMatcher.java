@@ -15,7 +15,7 @@ public class NIO2FilenameMatcher implements FileMatcher {
 	
 	
 	public NIO2FilenameMatcher(SearchOptions searchOptions) {
-		fileVisitor = new MatchingFileNameVisitor(searchOptions.getFileName());
+		fileVisitor = new MatchingFileNameVisitor(searchOptions);
 		directoryVisitor = new NIO2DirectoryVisitor(Paths.get(searchOptions.getDirectory()), fileVisitor);
 	}
 	

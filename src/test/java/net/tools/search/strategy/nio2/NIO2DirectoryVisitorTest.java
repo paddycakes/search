@@ -22,9 +22,9 @@ import org.junit.Test;
 
 public class NIO2DirectoryVisitorTest {
 	
-	private static final String testDirectory = "build/directorysearcher/";
+	private static final String TEST_DIRECTORY = "build/directorysearcher/";
 	
-	private final Path rootDirectoryPath = Paths.get(testDirectory);;
+	private final Path rootDirectoryPath = Paths.get(TEST_DIRECTORY);;
 	private FileVisitor<Path> fileVisitor;
 	private DirectoryTreeBuilder builder;
 	
@@ -32,7 +32,7 @@ public class NIO2DirectoryVisitorTest {
 	
 	@Before
 	public void setUp() throws IOException {
-		builder = new DirectoryTreeBuilder(testDirectory);
+		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
 		setUpFileVisitorMocking();
 		directoryVisitor = new NIO2DirectoryVisitor(rootDirectoryPath, fileVisitor);
 	}
@@ -100,6 +100,6 @@ public class NIO2DirectoryVisitorTest {
 	}
 
 	private void createFile(String fileName) throws IOException {
-		builder.createFile(testDirectory + fileName);
+		builder.createFile(TEST_DIRECTORY + fileName);
 	}
 }
