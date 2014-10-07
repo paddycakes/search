@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import net.tools.search.config.SearchOptions;
 import net.tools.search.utils.DirectoryTreeBuilder;
+import net.tools.search.utils.FileWriter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,16 +20,20 @@ import org.junit.Test;
  */
 public class DirectorySearcherEndToEndTest {
 
-	private static final String TEST_DIRECTORY = "build/directorysearcher/";
+	private static final String TEST_DIRECTORY = "build/directorysearcher";
 	private static final String FILE_NAME = "pom.xml";
+	private static final String SEARCH_TEXT = "<artifact-id>searcher</artifact-id>";
 	
 	private DirectoryTreeBuilder builder;
+	private FileWriter fileWriter;
+	
 	private SearchOptions searchOptions;
-	private DirectorySearcher application;;
+	private DirectorySearcher application;
 	
 	@Before
 	public void setUp() throws IOException {
 		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
+		fileWriter = new FileWriter();
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).build();
 		application = new DirectorySearcher(searchOptions);
 	}
@@ -54,18 +59,38 @@ public class DirectorySearcherEndToEndTest {
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_both_filename_and_text_options() {
-	
+	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_both_filename_and_text_options() throws IOException {
+		String nonMatchingText = "randomtext";
+		createAndWriteToFile(FILE_NAME, SEARCH_TEXT);
+		createAndWriteToFile("build.gradle", nonMatchingText);
+		
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(1));
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_match_filename_option_but_do_not_match_text_option() {
-	
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_match_filename_option_but_do_not_match_text_option() throws IOException {
+		String nonMatchingText = "randomtext";
+		createAndWriteToFile(FILE_NAME, SEARCH_TEXT);
+		createAndWriteToFile("subdirectory", FILE_NAME, nonMatchingText);
+		
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(1));
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_do_not_match_filename_option_but_do_match_text_option() {
-	
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_do_not_match_filename_option_but_do_match_text_option() throws IOException {
+		createAndWriteToFile(FILE_NAME, SEARCH_TEXT);
+		createAndWriteToFile("build.xml", SEARCH_TEXT);
+		
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(1));
 	}
 	
 	@Test
@@ -118,17 +143,31 @@ public class DirectorySearcherEndToEndTest {
 	// Private helpers
 	
 	private void createFile(String fileName) throws IOException {
-		builder.createFile(TEST_DIRECTORY + fileName);
+		builder.createFile(createPath(fileName));
 	}
 	
 	private void createFile(String directory, String fileName) throws IOException {
-		builder.createDirectory(TEST_DIRECTORY + directory);
-		builder.createFile(TEST_DIRECTORY + "/" + directory + "/" + fileName);
+		builder.createDirectory(createPath(directory));
+		builder.createFile(createPath(directory, fileName));
 	}
 	
-	private void assertNoMatchingFiles() {
-		assertThat(application.listMatchingFiles(), is(notNullValue()));
-		assertTrue(application.listMatchingFiles().isEmpty());
+	private void createAndWriteToFile(String fileName, String content) throws IOException {
+		createFile(fileName);
+		fileWriter.write(createPath(fileName), content);
+	}
+	
+	private void createAndWriteToFile(String directory, String fileName, String content) throws IOException {
+		createFile(directory, fileName);
+		fileWriter.write(createPath(directory, fileName), content);
+	}
+	
+	private String createPath(String... pathElements) {
+		StringBuilder pathBdr = new StringBuilder(TEST_DIRECTORY);
+		for (String pathElement : pathElements) {
+			pathBdr.append("/");
+			pathBdr.append(pathElement);
+		}
+		return pathBdr.toString();
 	}
 	
 	private void assertRootDirectoryIs(String directory) {
