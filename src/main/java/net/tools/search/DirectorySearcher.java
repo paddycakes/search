@@ -7,15 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.tools.search.config.SearchOptions;
-import net.tools.search.strategy.nio2.NIO2FileMatcher;
 
 /**
  * Main entry point for directory search application.
  */
 public class DirectorySearcher {
 	
-	// TODO: Need to implement:
-	//		- text matching
 	// TODO: Test command line interface works
 	
 	private final SearchOptions searchOptions;
@@ -23,15 +20,12 @@ public class DirectorySearcher {
 	private List<String> matchingFilePaths;
 
 	public DirectorySearcher(SearchOptions searchOptions) {
-		// TODO: Factory to get default? Where should Path be created?
-		// TODO: *** Get default FileMatcher from a Factory**
-		this(searchOptions, new NIO2FileMatcher(searchOptions));
+		this(searchOptions, FileMatcherFactory.defaultFileMatcher(searchOptions));
 	}
 	
 	public DirectorySearcher(SearchOptions searchOptions, FileMatcher fileMatcher) {
 		this.searchOptions = searchOptions;
 		this.fileMatcher = fileMatcher;
-		// this.matchingFilePaths = new ArrayList<>();
 	}
 	
 	public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package net.tools.search;
 
+import static net.tools.search.FileMatcherFactory.defaultFileMatcher;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -34,7 +35,7 @@ public class DirectorySearcherEndToEndTest {
 		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
 		fileWriter = new FileWriter();
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).build();
-		application = new DirectorySearcher(searchOptions);
+		application = new DirectorySearcher(searchOptions, defaultFileMatcher(searchOptions));
 	}
 	
 	@After
