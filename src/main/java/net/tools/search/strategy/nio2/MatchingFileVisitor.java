@@ -11,15 +11,19 @@ import java.util.List;
 import net.tools.search.config.SearchOptions;
 import net.tools.search.strategy.nio2.matcher.Matcher;
 
+/**
+ * FileVisitor that determines matching files
+ * based on all matchers returning true.
+ */
 public class MatchingFileVisitor extends SimpleFileVisitor<Path> {
 	
 	private final SearchOptions searchOptions;
-	private final List<Matcher> pathMatchers;
+	private final List<Matcher> matchers;
 	private final List<File> matchedFiles;
 
-	public MatchingFileVisitor(SearchOptions searchOptions, List<Matcher> pathMatchers) {
+	public MatchingFileVisitor(SearchOptions searchOptions, List<Matcher> matchers) {
 		this.searchOptions = searchOptions;
-		this.pathMatchers = pathMatchers;
+		this.matchers = matchers;
 		this.matchedFiles = new ArrayList<>();
 	}
 	
@@ -41,7 +45,7 @@ public class MatchingFileVisitor extends SimpleFileVisitor<Path> {
 	
 	private boolean matches(Path path) {
 		boolean isMatch = true;
-		for (Matcher matcher : pathMatchers) {
+		for (Matcher matcher : matchers) {
 			if (!matcher.matches(path)) {
 				isMatch = false;
 				break;
