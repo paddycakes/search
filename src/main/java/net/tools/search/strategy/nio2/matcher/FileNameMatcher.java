@@ -2,6 +2,9 @@ package net.tools.search.strategy.nio2.matcher;
 
 import java.nio.file.Path;
 
+/**
+ * Matches files with specified fileName.
+ */
 public class FileNameMatcher implements Matcher {
 
 	private final String fileName;

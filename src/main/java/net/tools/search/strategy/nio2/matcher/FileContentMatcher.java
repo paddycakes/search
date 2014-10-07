@@ -6,6 +6,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Matches files that contain search text.
+ */
 public class FileContentMatcher implements Matcher {
 	
 	private final String text;

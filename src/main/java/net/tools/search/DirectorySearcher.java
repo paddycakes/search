@@ -3,7 +3,6 @@ package net.tools.search;
 import static java.lang.String.format;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.tools.search.config.SearchOptions;
@@ -13,11 +12,8 @@ import net.tools.search.config.SearchOptions;
  */
 public class DirectorySearcher {
 	
-	// TODO: Test command line interface works
-	
 	private final SearchOptions searchOptions;
 	private final FileMatcher fileMatcher;
-	private List<String> matchingFilePaths;
 
 	public DirectorySearcher(SearchOptions searchOptions) {
 		this(searchOptions, FileMatcherFactory.defaultFileMatcher(searchOptions));
@@ -31,10 +27,9 @@ public class DirectorySearcher {
 	public static void main(String[] args) {
 		SearchOptions searchOptions = SearchOptions.from(args);
 		DirectorySearcher application = new DirectorySearcher(searchOptions);
-		List<String> matchingFiles = application.listMatchingFiles();
-		for (String file : matchingFiles) {
-			System.out.println(format("Matching path is '%s'", file.toString()));
-		}
+		List<File> matchingFiles = application.matchingFiles();
+		if (matchingFiles.size() == 0) printNoMatches(searchOptions.getFileName());
+		else printMatches(matchingFiles);
 	}
 
 	public String rootDirectory() {
@@ -45,15 +40,18 @@ public class DirectorySearcher {
 		return searchOptions.getFileName();
 	}
 
-	// TODO: Convert from Files to String paths
-	public List<String> listMatchingFiles() {
-		if (matchingFilePaths == null) {
-			matchingFilePaths = new ArrayList<>();
-			for (File file : fileMatcher.getMatchingFiles()) {
-				matchingFilePaths.add(file.getPath());
-			}
+	public List<File> matchingFiles() {
+		return fileMatcher.getMatchingFiles();
+	}
+	
+	private static void printMatches(List<File> matchingFiles) {
+		for (File file : matchingFiles) {
+			System.out.println(format("Matching file path is '%s'", file.getPath().toString()));
 		}
-		return matchingFilePaths;
+	}
+
+	private static void printNoMatches(String fileName) {
+		System.out.println(format("No matching files for '%s'", fileName));
 	}
 
 }

@@ -20,7 +20,7 @@ public class Option<T> {
 	}
 	
 
-	public static Option create(String flag, String value) {
+	public static Option<?> create(String flag, String value) {
 		switch (flag) {
 		case FILE_NAME_FLAG:
 			return fileNameOption(value);

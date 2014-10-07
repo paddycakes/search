@@ -48,14 +48,14 @@ public class DirectorySearcherEndToEndTest {
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_filename_option() throws IOException {
 		createFile(FILE_NAME);
 		createFile("subDirectory", FILE_NAME);
-		assertThat(application.listMatchingFiles().size(), is(2));
+		assertThat(application.matchingFiles().size(), is(2));
 	}
 
 	@Test
 	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_only_partially_match_filename_string_option() throws IOException {
 		createFile("pom.txt");
 		createFile("om.xml");
-		assertThat(application.listMatchingFiles().size(), is(0));
+		assertThat(application.matchingFiles().size(), is(0));
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(1));
+		assertThat(application.matchingFiles().size(), is(1));
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(1));
+		assertThat(application.matchingFiles().size(), is(1));
 	}
 	
 	@Test
@@ -88,7 +88,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(1));
+		assertThat(application.matchingFiles().size(), is(1));
 	}
 	
 	@Test
@@ -102,7 +102,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchAnyNumberOfCharactersBetweenPandM).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(4));
+		assertThat(application.matchingFiles().size(), is(4));
 	}
 	
 	@Test
@@ -119,7 +119,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchOnlyZeroOrSingleOBetweenPandM).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(2));
+		assertThat(application.matchingFiles().size(), is(2));
 	}
 	
 	@Test
@@ -133,7 +133,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).text(textRegex).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(3));
+		assertThat(application.matchingFiles().size(), is(3));
 	}
 	
 	@Test
@@ -147,7 +147,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).text(textRegex).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(0));
+		assertThat(application.matchingFiles().size(), is(0));
 	}
 	
 	@Test
@@ -161,7 +161,7 @@ public class DirectorySearcherEndToEndTest {
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).text(textRegex).build();
 		application = new DirectorySearcher(searchOptions);
 		
-		assertThat(application.listMatchingFiles().size(), is(0));
+		assertThat(application.matchingFiles().size(), is(0));
 	}
 	
 
