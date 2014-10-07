@@ -13,7 +13,7 @@ import net.tools.search.strategy.nio2.matcher.Matcher;
 
 /**
  * Encapsulates an NIO2 implementation of the FileMatcher interface.
- * Contained collaborators use NIO2 features to find and match files..
+ * Contained collaborators use NIO2 features to find and match files.
  */
 public class NIO2FileMatcher implements FileMatcher {
 	

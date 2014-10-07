@@ -54,10 +54,6 @@ Test reports can be found at:
 	
 ### Running application
 
-	./gradlew run
-	
-### Running application
-
 Firstly, install the application
 
 	./gradle installApp
@@ -68,11 +64,25 @@ Then navigate to
 
 and execute on Unix
 
-	./bin/search	
+	./bin/search -f <filename> <directory>
 
 or on Windows
 
-	./bin/search.bat
+	./bin/search.bat -f <filename> <directory>
+	
+to list exact filename matches in the file system hierarchy rooted at directory. For example,
+
+		./bin/search -f "pom.xml" temp
+		
+will list all files called 'pom.xml' anywhere in the 'temp' relative directory hierarchy (which is a sibling of 'bin'. You can also use absolute paths:
+
+		./bin/search -f "pom.xml" /home/paddy/temp
+		
+You can then also add an additional search text filter, as described in the Overview section. For example,
+
+		./bin/search -f "pom.xml" -p "name" temp
+
+which will only list files that are both named 'pom.xml' and contain the search text 'name'.
 
 ### Creating a distribution
 
@@ -86,9 +96,10 @@ and then you will find the distribution created at:
 	
 ## Third Party Libraries
 
-If you wish, you can include in the README a list of third party libraries that you would have used if allowed, and why
+Other third party libraries that I would have used would have included:
 
-Google Guava - Preconditions, Collection utilities
-Logback
-Spock - for BDD style testing
-Concordion ??
+* Google Guava - for it's Preconditions (to enforce invariants), Immutable Collections, Predicates, and a range of other useful utilities
+
+* Spock - for BDD specification testing framework which is extremely powerful and extremely readable due to the Groovy DSL and power features. I often write my tests in Groovy using Spock while testing Java code.
+
+* Concordion - which is a great tool for writing automated acceptance tests in Java. One of it's most powerful features is that it provides the business with a visual view on development progress that is often impossible with frameworks like JUnit. Can develop English language HTML page specification driven tests that send input into the system and report output and success/failure status. My favourite fact about this framework is that it enables the tests to then become living documentation. If the test-driven documentation does not pass, then the build fails and the software cannot be deployed. Therefore, the implicit fact is that all documentation must be up to date and reflect the current code to be successfully deployed.
