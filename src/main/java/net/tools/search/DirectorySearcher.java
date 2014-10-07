@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.tools.search.config.SearchOptions;
-import net.tools.search.strategy.nio2.NIO2FilenameMatcher;
+import net.tools.search.strategy.nio2.NIO2FileMatcher;
 
 /**
  * Main entry point for directory search application.
@@ -25,7 +25,7 @@ public class DirectorySearcher {
 	public DirectorySearcher(SearchOptions searchOptions) {
 		// TODO: Factory to get default? Where should Path be created?
 		// TODO: *** Get default FileMatcher from a Factory**
-		this(searchOptions, new NIO2FilenameMatcher(searchOptions));
+		this(searchOptions, new NIO2FileMatcher(searchOptions));
 	}
 	
 	public DirectorySearcher(SearchOptions searchOptions, FileMatcher fileMatcher) {

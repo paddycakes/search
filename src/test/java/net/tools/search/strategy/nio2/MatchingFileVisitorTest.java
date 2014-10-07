@@ -7,24 +7,29 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.tools.search.config.SearchOptions;
-import net.tools.search.strategy.nio2.MatchingFileNameVisitor;
+import net.tools.search.strategy.nio2.MatchingFileVisitor;
+import net.tools.search.strategy.nio2.matcher.FileContentMatcher;
+import net.tools.search.strategy.nio2.matcher.FileNameMatcher;
+import net.tools.search.strategy.nio2.matcher.PathMatcher;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class MatchingFileNameVisitorTest {
+public class MatchingFileVisitorTest {
 	
 	private static final String TEST_DIRECTORY = "build/directorysearcher/";
 	public static final String FILE_TO_MATCH = "pom.xml";
 	
-	private MatchingFileNameVisitor visitor;
+	private MatchingFileVisitor visitor;
 	
 	@Before
 	public void setUp() {
 		SearchOptions searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_TO_MATCH).build();
-		visitor = new MatchingFileNameVisitor(searchOptions);
+		visitor = new MatchingFileVisitor(searchOptions, createMatchers(searchOptions));
 	}
 	
 	@Test
@@ -46,10 +51,16 @@ public class MatchingFileNameVisitorTest {
 	
 	// Private helpers
 	
-	// TODO: Do I need a Mock for BasicFileAttributes or is null okay?
-	private void visitFilePath(MatchingFileNameVisitor visitor, String filePath) throws IOException {
+	private void visitFilePath(MatchingFileVisitor visitor, String filePath) throws IOException {
 		Path path = Paths.get(filePath);
 		BasicFileAttributes attrs = null;
 		visitor.visitFile(path, attrs);
+	}
+	
+	private List<PathMatcher> createMatchers(SearchOptions searchOptions) {
+		List<PathMatcher> pathMatchers = new ArrayList<>();
+		pathMatchers.add(new FileNameMatcher(searchOptions.getFileName()));
+		// pathMatchers.add(new FileContentMatcher(searchOptions.getText()));
+		return pathMatchers;
 	}
 }

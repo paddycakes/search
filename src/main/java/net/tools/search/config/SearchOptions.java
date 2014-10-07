@@ -1,6 +1,8 @@
 package net.tools.search.config;
 
 import static java.lang.String.format;
+import static net.tools.search.config.Option.FILE_NAME_FLAG;
+import static net.tools.search.config.Option.TEXT_FLAG;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +80,14 @@ public class SearchOptions {
 	}
 	
 	public String getFileName() {
-		return (String) options.get("-f").getValue();
+		return (String) options.get(FILE_NAME_FLAG).getValue();
+	}
+	
+	public String getText() {
+		if (options.get(TEXT_FLAG) != null) {
+			return (String) options.get(TEXT_FLAG).getValue();
+		}
+		return null;
 	}
 
 	private static void validateAtLeastThreeArguments(String[] args) {
