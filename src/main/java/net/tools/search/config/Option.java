@@ -31,11 +31,11 @@ public class Option<T> {
 		}
 	}
 	
-	private static Option<String> fileNameOption(String fileName) {
+	public static Option<String> fileNameOption(String fileName) {
 		return new Option<String>(FILE_NAME_FLAG, "File name to match during search", String.class, fileName);
 	}
 	
-	private static Option<String> textOption(String text) {
+	public static Option<String> textOption(String text) {
 		return new Option<String>(TEXT_FLAG, "Text to match during search", String.class, text);
 	}
 

@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import net.tools.search.FileMatcher;
+import net.tools.search.config.SearchOptions;
 
 public class NIO2FilenameMatcher implements FileMatcher {
 	
@@ -13,9 +14,9 @@ public class NIO2FilenameMatcher implements FileMatcher {
 	private List<File> matchingFiles;
 	
 	
-	public NIO2FilenameMatcher(String fileName, String rootDirectory) {
-		fileVisitor = new MatchingFileNameVisitor(fileName);
-		directoryVisitor = new NIO2DirectoryVisitor(Paths.get(rootDirectory), fileVisitor);
+	public NIO2FilenameMatcher(SearchOptions searchOptions) {
+		fileVisitor = new MatchingFileNameVisitor(searchOptions.getFileName());
+		directoryVisitor = new NIO2DirectoryVisitor(Paths.get(searchOptions.getDirectory()), fileVisitor);
 	}
 	
 	@Override

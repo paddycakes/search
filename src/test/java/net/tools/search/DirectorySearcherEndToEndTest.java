@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * TODO: Document purpose
+ * Acceptance tests for end-to-end application functionality.
  */
 public class DirectorySearcherEndToEndTest {
 
@@ -29,7 +29,7 @@ public class DirectorySearcherEndToEndTest {
 	@Before
 	public void setUp() throws IOException {
 		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
-		searchOptions = new SearchOptions(TEST_DIRECTORY);
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).build();
 		application = new DirectorySearcher(searchOptions);
 	}
 	
@@ -47,7 +47,6 @@ public class DirectorySearcherEndToEndTest {
 	// TEST: for directory not existing
 
 	
-	// TODO: Need to supply fileName...
 	@Test
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_filename_option() throws IOException {
 		createFile("pom.xml");

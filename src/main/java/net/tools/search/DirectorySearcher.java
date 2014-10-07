@@ -14,6 +14,11 @@ import net.tools.search.strategy.nio2.NIO2FilenameMatcher;
  */
 public class DirectorySearcher {
 	
+	// TODO: Need to implement:
+	//		- text matching
+	//		- regex support
+	// TODO: Test command line interface works
+	
 	private final SearchOptions searchOptions;
 	private final FileMatcher fileMatcher;
 	private List<String> matchingFilePaths;
@@ -21,7 +26,7 @@ public class DirectorySearcher {
 	public DirectorySearcher(SearchOptions searchOptions) {
 		// TODO: Factory to get default? Where should Path be created?
 		// TODO: *** Get default FileMatcher from a Factory**
-		this(searchOptions, new NIO2FilenameMatcher("pom.xml", searchOptions.getDirectory()));
+		this(searchOptions, new NIO2FilenameMatcher(searchOptions));
 	}
 	
 	public DirectorySearcher(SearchOptions searchOptions, FileMatcher fileMatcher) {
@@ -41,6 +46,10 @@ public class DirectorySearcher {
 
 	public String rootDirectory() {
 		return searchOptions.getDirectory();
+	}
+	
+	public String getFileName() {
+		return searchOptions.getFileName();
 	}
 
 	// TODO: Convert from Files to String paths
