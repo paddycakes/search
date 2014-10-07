@@ -36,9 +36,6 @@ public class MatchingFileVisitor extends SimpleFileVisitor<Path> {
 		if (matches(path)) {
 			matchedFiles.add(path.toFile());	
 		}
-/*		if (path.getFileName().toString().matches(searchOptions.getFileName())) {
-			matchedFiles.add(path.toFile());
-		}*/
 		return FileVisitResult.CONTINUE;
 	}
 	
