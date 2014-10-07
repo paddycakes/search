@@ -7,7 +7,7 @@ A tool to traverse a directory hierarchy, from a specified root directory, and p
 
 	￼search -f "pom.xml" <directory>
 
-￼￼If the specified root directory is 'searchtest' then the program will output matches in the following format:
+￼￼If the specified root directory is *searchtest* then the program will output matches in the following format:
 
 	searchtest/pom.xml 
 	searchtest/subproject/pom.xml
@@ -18,7 +18,7 @@ In addition to filtering on filename with the -f option, a further filter can be
 
 	￼search -f "pom.xml" -p "<artifactId>my-app</artifactId>" <directory>
 
-only files with the name pom.xml that contain the specified artifactId element and value will be reported.
+only files with the name *pom.xml* that contain the specified artifactId element and value will be reported.
 
 ### Regex
 
@@ -74,7 +74,7 @@ to list exact filename matches in the file system hierarchy rooted at directory.
 
 		./bin/search -f "pom.xml" temp
 		
-will list all files called 'pom.xml' anywhere in the 'temp' relative directory hierarchy (which is a sibling of 'bin'. You can also use absolute paths:
+will list all files called *pom.xml* anywhere in the **temp** relative directory hierarchy (which is a sibling of **bin**). You can also use absolute paths:
 
 		./bin/search -f "pom.xml" /home/paddy/temp
 		
@@ -82,7 +82,7 @@ You can then also add an additional search text filter, as described in the Over
 
 		./bin/search -f "pom.xml" -p "name" temp
 
-which will only list files that are both named 'pom.xml' and contain the search text 'name'.
+which will only list files that are both named **pom.xml** and contain the search text **name**.
 
 ### Creating a distribution
 
