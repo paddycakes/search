@@ -67,7 +67,6 @@ public class DirectoryVisitorTest {
 	}
 	
 	
-	
 	// Private helpers
 	
 	@SuppressWarnings("unchecked")

@@ -4,13 +4,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import net.tools.search.utils.DirectoryTreeBuilder;
 import net.tools.search.utils.FileWriter;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,12 +36,39 @@ public class FileContentMatcherTest {
 	}
 	
 	@Test
-	public void should_match_file_that_contains_search_text() throws IOException {
+	public void should_match_file_that_contains_search_text_string() throws IOException {
 		String searchText = "<artifact-id>";
 		createAndWriteToFile(FILE_NAME, searchText);
 		matcher = new FileContentMatcher(searchText);
 		
-		assertThat(matcher.matches(Paths.get(createFilePath(FILE_NAME))), is(true));
+		assertThat(matcher.matches(path(FILE_NAME)), is(true));
+	}
+	
+	@Test
+	public void should_not_match_file_that_does_not_contain_search_text_string() throws IOException {
+		String searchText = "<artifact-id>";
+		createAndWriteToFile(FILE_NAME, "randomtext");
+		matcher = new FileContentMatcher(searchText);
+		
+		assertThat(matcher.matches(path(FILE_NAME)), is(false));
+	}
+	
+	@Test
+	public void should_match_file_that_contains_search_text_regex() throws IOException {
+		String searchTextRegex = "<artifact.*>";
+		createAndWriteToFile(FILE_NAME, "<artifact-id>");
+		matcher = new FileContentMatcher(searchTextRegex);
+		
+		assertThat(matcher.matches(path(FILE_NAME)), is(true));
+	}
+	
+	@Test
+	public void should_not_match_file_that_does_not_contain_search_text_regex() throws IOException {
+		String searchTextRegex = "<artifact-\\d>";
+		createAndWriteToFile(FILE_NAME, "<artifact-id>");
+		matcher = new FileContentMatcher(searchTextRegex);
+		
+		assertThat(matcher.matches(path(FILE_NAME)), is(false));
 	}
 	
 
@@ -51,6 +78,10 @@ public class FileContentMatcherTest {
 		String filePath = createFilePath(fileName);
 		builder.createFile(filePath);
 		fileWriter.write(filePath, content);
+	}
+	
+	private Path path(String fileName) {
+		return Paths.get(createFilePath(fileName));
 	}
 	
 	private String createFilePath(String fileName) {

@@ -26,7 +26,8 @@ public class FileContentMatcher implements Matcher {
 				}
 			}
 		} catch (IOException e) {
-			// e.printStackTrace();
+			// TODO: Implement proper logging
+			e.printStackTrace();
 		}
 		return isMatch;
 	}

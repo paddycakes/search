@@ -25,6 +25,7 @@ public class DirectoryVisitor {
 		try {
 			Files.walkFileTree(directoryRoot, fileVisitor);
 		} catch (IOException e) {
+			// TODO: Implement proper logging
 			e.printStackTrace();
 		}	
 	}
