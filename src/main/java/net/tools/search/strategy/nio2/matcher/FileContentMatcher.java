@@ -20,8 +20,7 @@ public class FileContentMatcher implements Matcher {
 		try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				// TOOD: Will this work for regex?
-				if (line.contains(text)) {
+				if (line.matches(text)) {
 					isMatch = true;
 					break;
 				}

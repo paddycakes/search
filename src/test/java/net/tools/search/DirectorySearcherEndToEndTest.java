@@ -98,6 +98,7 @@ public class DirectorySearcherEndToEndTest {
 		createFile("pam.xml");
 		createFile("piiiim.xml");
 		createFile("subDirectory", "pum.xml");
+		
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchAnyNumberOfCharactersBetweenPandM).build();
 		application = new DirectorySearcher(searchOptions);
 		
@@ -113,7 +114,8 @@ public class DirectorySearcherEndToEndTest {
 		createFile("subDirectory", "poom.xml");
 		createFile("pam.xml");
 		createFile("poam.xml");		
-		createFile("po?m.xml");		
+		createFile("po?m.xml");
+		
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchOnlyZeroOrSingleOBetweenPandM).build();
 		application = new DirectorySearcher(searchOptions);
 		
@@ -122,16 +124,44 @@ public class DirectorySearcherEndToEndTest {
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_regex_for_both_filename_and_text_options() throws IOException {
+		String fileNameRegex = "p.?m.xml";
+		String textRegex = "file\\d";
+		createAndWriteToFile("pom.xml", "file1");						// Match
+		createAndWriteToFile("subdirectory1", "pam.xml", "file2");		// Match
+		createAndWriteToFile("subdirectory2", "pum.xml", "file3");		// Match
+		
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).text(textRegex).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(3));
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_match_regex_for_filename_option_but_do_not_match_regex_for_text_option() {
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_match_regex_for_filename_option_but_do_not_match_regex_for_text_option() throws IOException {
+		String fileNameRegex = "p.?m.xml";
+		String textRegex = "file\\d";
+		createAndWriteToFile("pom.xml", "file11");						// No match because only single digit allowed in text content. Same for two below.
+		createAndWriteToFile("subdirectory1", "pam.xml", "file22");
+		createAndWriteToFile("subdirectory2", "pum.xml", "file33");
 		
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).text(textRegex).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(0));
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_dont_match_regex_for_filename_option_but_do_match_regex_for_text_option() {
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_dont_match_regex_for_filename_option_but_do_match_regex_for_text_option() throws IOException {
+		String fileNameRegex = "p.?m.xml";
+		String textRegex = "file\\d";
+		createAndWriteToFile("poom.xml", "file1");						// No match because only single character allowed between 'p' and 'm' in filename. Same for two below.
+		createAndWriteToFile("subdirectory1", "paam.xml", "file2");		
+		createAndWriteToFile("subdirectory2", "puum.xml", "file3");
 		
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).text(textRegex).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(0));
 	}
 	
 
