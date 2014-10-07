@@ -2,7 +2,7 @@ package net.tools.search.strategy.nio2.matcher;
 
 import java.nio.file.Path;
 
-public class FileNameMatcher implements PathMatcher {
+public class FileNameMatcher implements Matcher {
 
 	private final String fileName;
 	

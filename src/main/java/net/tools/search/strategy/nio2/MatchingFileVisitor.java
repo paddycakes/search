@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.tools.search.config.SearchOptions;
-import net.tools.search.strategy.nio2.matcher.PathMatcher;
+import net.tools.search.strategy.nio2.matcher.Matcher;
 
 public class MatchingFileVisitor extends SimpleFileVisitor<Path> {
 	
 	private final SearchOptions searchOptions;
-	private final List<PathMatcher> pathMatchers;
+	private final List<Matcher> pathMatchers;
 	private final List<File> matchedFiles;
 
-	public MatchingFileVisitor(SearchOptions searchOptions, List<PathMatcher> pathMatchers) {
+	public MatchingFileVisitor(SearchOptions searchOptions, List<Matcher> pathMatchers) {
 		this.searchOptions = searchOptions;
 		this.pathMatchers = pathMatchers;
 		this.matchedFiles = new ArrayList<>();
@@ -41,7 +41,7 @@ public class MatchingFileVisitor extends SimpleFileVisitor<Path> {
 	
 	private boolean matches(Path path) {
 		boolean isMatch = true;
-		for (PathMatcher matcher : pathMatchers) {
+		for (Matcher matcher : pathMatchers) {
 			if (!matcher.matches(path)) {
 				isMatch = false;
 				break;

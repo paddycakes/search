@@ -14,7 +14,7 @@ import net.tools.search.config.SearchOptions;
 import net.tools.search.strategy.nio2.MatchingFileVisitor;
 import net.tools.search.strategy.nio2.matcher.FileContentMatcher;
 import net.tools.search.strategy.nio2.matcher.FileNameMatcher;
-import net.tools.search.strategy.nio2.matcher.PathMatcher;
+import net.tools.search.strategy.nio2.matcher.Matcher;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,10 +57,12 @@ public class MatchingFileVisitorTest {
 		visitor.visitFile(path, attrs);
 	}
 	
-	private List<PathMatcher> createMatchers(SearchOptions searchOptions) {
-		List<PathMatcher> pathMatchers = new ArrayList<>();
-		pathMatchers.add(new FileNameMatcher(searchOptions.getFileName()));
-		// pathMatchers.add(new FileContentMatcher(searchOptions.getText()));
-		return pathMatchers;
+	private List<Matcher> createMatchers(SearchOptions searchOptions) {
+		List<Matcher> matchers = new ArrayList<>();
+		matchers.add(new FileNameMatcher(searchOptions.getFileName()));
+		if (searchOptions.getText() != null) {
+			matchers.add(new FileContentMatcher(searchOptions.getText()));
+		}
+		return matchers;
 	}
 }
