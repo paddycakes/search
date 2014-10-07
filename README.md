@@ -1,7 +1,13 @@
 Search Application
 -------------------
 
-## Summary
+## Overview
+
+A tool to traverse a directory hierarchy, from a specified root directory, and print a list of all files which match the file name specified with the -f option.
+
+	￼search -f "pom.xml" <directory>
+
+## Gradle Build
 
 The project is built with Gradle:
 
