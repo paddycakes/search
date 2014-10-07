@@ -51,12 +51,20 @@ The Gradle Wrapper is a batch script on Windows or a shell script on *nix. When 
 Test reports can be found at:
 
 	build/reports/tests/index.html
-	
+
+Main application acceptance tests can be found in:
+
+	DirectorySearcherEndToEndTest.java
+
+Source code also contains a suite of unit tests and some supporting test utilities in the package:
+
+	net.tools.search.utils
+
 ### Running application
 
 Firstly, install the application
 
-	./gradle installApp
+	./gradlew installApp
 	
 Then navigate to
 
