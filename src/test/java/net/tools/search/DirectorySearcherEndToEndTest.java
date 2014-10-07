@@ -37,14 +37,6 @@ public class DirectorySearcherEndToEndTest {
 	public void tearDown() throws IOException {
 		builder.tearDown();
 	}
-	
-	// NOTE: This is not an end-to-end test. Move it elsewhere?
-	@Test public void
-	accepts_directory_parameters_as_root_search_directory() {
-		assertRootDirectoryIs(TEST_DIRECTORY);
-	}
-	
-	// TEST: for directory not existing
 
 	
 	@Test
@@ -78,24 +70,38 @@ public class DirectorySearcherEndToEndTest {
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_regex_for_filename_option() {
+	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_regex_for_filename_option() throws IOException {
+		String fileNameRegex = "p.*m.xml";
+		createFile("pom.xml");
+		createFile("pam.xml");
+		createFile("piiiim.xml");
+		createFile("subDirectory", "pum.xml");
+		createFile("nomatch.xml");
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).build();
+		application = new DirectorySearcher(searchOptions);
 		
+		assertThat(application.listMatchingFiles().size(), is(4));
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_do_not_match_regex_for_filename_option() {
-		
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_do_not_match_regex_for_filename_option() throws IOException {
 	}
 	
 	@Test
-	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_regex_for_both_filename_and_text_options() {
-	
+	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_regex_for_both_filename_and_text_options() throws IOException {
 	}
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_match_regex_for_filename_option_but_do_not_match_regex_for_text_option() {
 		
 	}
+	
+	@Test public void
+	accepts_directory_parameters_as_root_search_directory() {
+		assertRootDirectoryIs(TEST_DIRECTORY);
+	}
+	
+	// TEST: for directory not existing
 	
 	// TODO: Test of adding and analysing new options
 

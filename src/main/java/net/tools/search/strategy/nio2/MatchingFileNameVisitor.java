@@ -33,7 +33,7 @@ public class MatchingFileNameVisitor extends SimpleFileVisitor<Path> {
 
 	@Override
 	public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
-		if (path.getFileName().toString().equals(fileToMatch)) {
+		if (path.getFileName().toString().matches(fileToMatch)) {
 			matchedFiles.add(path.toFile());
 		}
 		return FileVisitResult.CONTINUE;
