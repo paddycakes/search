@@ -1,9 +1,7 @@
 package net.tools.search;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -23,6 +21,7 @@ public class DirectorySearcherEndToEndTest {
 	private static final String TEST_DIRECTORY = "build/directorysearcher";
 	private static final String FILE_NAME = "pom.xml";
 	private static final String SEARCH_TEXT = "<artifact-id>searcher</artifact-id>";
+	private static final String NON_MATCHING_TEXT = "randomtext";
 	
 	private DirectoryTreeBuilder builder;
 	private FileWriter fileWriter;
@@ -46,13 +45,13 @@ public class DirectorySearcherEndToEndTest {
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_filename_option() throws IOException {
-		createFile("pom.xml");
-		createFile("subDirectory", "pom.xml");
+		createFile(FILE_NAME);
+		createFile("subDirectory", FILE_NAME);
 		assertThat(application.listMatchingFiles().size(), is(2));
 	}
 
 	@Test
-	public void searches_specified_directory_hierarchy_and__does_not_return_files_that_only_partially_match_filename_option() throws IOException {
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_only_partially_match_filename_string_option() throws IOException {
 		createFile("pom.txt");
 		createFile("om.xml");
 		assertThat(application.listMatchingFiles().size(), is(0));
@@ -60,9 +59,8 @@ public class DirectorySearcherEndToEndTest {
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_both_filename_and_text_options() throws IOException {
-		String nonMatchingText = "randomtext";
 		createAndWriteToFile(FILE_NAME, SEARCH_TEXT);
-		createAndWriteToFile("build.gradle", nonMatchingText);
+		createAndWriteToFile("build.gradle", NON_MATCHING_TEXT);
 		
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
 		application = new DirectorySearcher(searchOptions);
@@ -72,9 +70,8 @@ public class DirectorySearcherEndToEndTest {
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_match_filename_option_but_do_not_match_text_option() throws IOException {
-		String nonMatchingText = "randomtext";
 		createAndWriteToFile(FILE_NAME, SEARCH_TEXT);
-		createAndWriteToFile("subdirectory", FILE_NAME, nonMatchingText);
+		createAndWriteToFile("subdirectory", FILE_NAME, NON_MATCHING_TEXT);
 		
 		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, FILE_NAME).text(SEARCH_TEXT).build();
 		application = new DirectorySearcher(searchOptions);
@@ -131,14 +128,11 @@ public class DirectorySearcherEndToEndTest {
 		
 	}
 	
-	@Test public void
-	accepts_directory_parameters_as_root_search_directory() {
-		assertRootDirectoryIs(TEST_DIRECTORY);
+	@Test
+	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_dont_match_regex_for_filename_option_but_do_match_regex_for_text_option() {
+		
 	}
 	
-	// TEST: for directory not existing
-	
-	// TODO: Test of adding and analysing new options
 
 	// Private helpers
 	
@@ -170,7 +164,4 @@ public class DirectorySearcherEndToEndTest {
 		return pathBdr.toString();
 	}
 	
-	private void assertRootDirectoryIs(String directory) {
-		assertThat(application.rootDirectory(), is(directory));
-	}
 }
