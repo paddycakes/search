@@ -71,13 +71,12 @@ public class DirectorySearcherEndToEndTest {
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_returns_only_files_that_match_regex_for_filename_option() throws IOException {
-		String fileNameRegex = "p.*m.xml";
+		String matchAnyNumberOfCharactersBetweenPandM = "p.*m.xml";
 		createFile("pom.xml");
 		createFile("pam.xml");
 		createFile("piiiim.xml");
 		createFile("subDirectory", "pum.xml");
-		createFile("nomatch.xml");
-		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, fileNameRegex).build();
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchAnyNumberOfCharactersBetweenPandM).build();
 		application = new DirectorySearcher(searchOptions);
 		
 		assertThat(application.listMatchingFiles().size(), is(4));
@@ -85,6 +84,16 @@ public class DirectorySearcherEndToEndTest {
 	
 	@Test
 	public void searches_specified_directory_hierarchy_and_does_not_return_files_that_do_not_match_regex_for_filename_option() throws IOException {
+		String matchOnlyZeroOrSingleOBetweenPandM = "po?m.xml";
+		createFile("pm.xml");	// Match
+		createFile("pom.xml");	// Match
+		createFile("poom.xml");
+		createFile("subDirectory", "poom.xml");
+		createFile("pam.xml");
+		searchOptions = new SearchOptions.Builder(TEST_DIRECTORY, matchOnlyZeroOrSingleOBetweenPandM).build();
+		application = new DirectorySearcher(searchOptions);
+		
+		assertThat(application.listMatchingFiles().size(), is(2));
 	}
 	
 	@Test
