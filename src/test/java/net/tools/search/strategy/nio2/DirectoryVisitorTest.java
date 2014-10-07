@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NIO2DirectoryVisitorTest {
+public class DirectoryVisitorTest {
 	
 	private static final String TEST_DIRECTORY = "build/directorysearcher/";
 	
@@ -28,13 +28,13 @@ public class NIO2DirectoryVisitorTest {
 	private FileVisitor<Path> fileVisitor;
 	private DirectoryTreeBuilder builder;
 	
-	private NIO2DirectoryVisitor directoryVisitor;
+	private DirectoryVisitor directoryVisitor;
 	
 	@Before
 	public void setUp() throws IOException {
 		builder = new DirectoryTreeBuilder(TEST_DIRECTORY);
 		setUpFileVisitorMocking();
-		directoryVisitor = new NIO2DirectoryVisitor(rootDirectoryPath, fileVisitor);
+		directoryVisitor = new DirectoryVisitor(rootDirectoryPath, fileVisitor);
 	}
 	
 	@After
@@ -46,7 +46,7 @@ public class NIO2DirectoryVisitorTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void should_throw_illegal_argument_exception_when_root_directory_does_not_exist() {
 		Path nonExistentDirectory = Paths.get("/non/existent/directory/path");
-		new NIO2DirectoryVisitor(nonExistentDirectory, fileVisitor);
+		new DirectoryVisitor(nonExistentDirectory, fileVisitor);
 	}
 	
 	@Test

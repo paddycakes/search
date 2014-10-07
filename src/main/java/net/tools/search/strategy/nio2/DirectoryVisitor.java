@@ -8,16 +8,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * TOOD: Document. 
- * 
- * What about immutability??
+ * Traverses the directory hierarchy from the specified root.
+ * The injected FileVisitor implementation will inspect each file.
  */
-public class NIO2DirectoryVisitor {
+public class DirectoryVisitor {
 
 	private final Path directoryRoot;
 	private final FileVisitor<Path> fileVisitor;
 
-	public NIO2DirectoryVisitor(Path directoryPath, FileVisitor<Path> fileVisitor) {
+	public DirectoryVisitor(Path directoryPath, FileVisitor<Path> fileVisitor) {
 		this.directoryRoot = validateDirectoryExists(directoryPath);
 		this.fileVisitor = fileVisitor;
 	}
@@ -26,7 +25,6 @@ public class NIO2DirectoryVisitor {
 		try {
 			Files.walkFileTree(directoryRoot, fileVisitor);
 		} catch (IOException e) {
-			// TODO How do I use java.util.logging here?
 			e.printStackTrace();
 		}	
 	}

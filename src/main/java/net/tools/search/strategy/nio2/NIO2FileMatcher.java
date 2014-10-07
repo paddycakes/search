@@ -14,13 +14,13 @@ import net.tools.search.strategy.nio2.matcher.Matcher;
 public class NIO2FileMatcher implements FileMatcher {
 	
 	private final MatchingFileVisitor fileVisitor;
-	private final NIO2DirectoryVisitor directoryVisitor;
+	private final DirectoryVisitor directoryVisitor;
 	private List<File> matchingFiles;
 	
 	public NIO2FileMatcher(SearchOptions searchOptions) {
 		List<Matcher> matchers = createMatchers(searchOptions);
 		fileVisitor = new MatchingFileVisitor(searchOptions, matchers);
-		directoryVisitor = new NIO2DirectoryVisitor(Paths.get(searchOptions.getDirectory()), fileVisitor);
+		directoryVisitor = new DirectoryVisitor(Paths.get(searchOptions.getDirectory()), fileVisitor);
 	}
 	@Override
 	public List<File> getMatchingFiles() {
